@@ -1,0 +1,75 @@
+{
+    "name": "atumaikin/electrolux",
+    "type": "project",
+    "description": "",
+    "require": {
+        "php": "^8.0.0",
+        "ext-json": "*",
+        "ext-openssl": "*",
+        "ext-sockets": "*",
+        "clue/socket-raw": "^1.5",
+        "guzzlehttp/guzzle": "^7.3",
+        "myclabs/php-enum": "^1.8",
+        "sentry/sdk": "^3.1",
+        "sentry/sentry-symfony": "^4.0",
+        "symfony/console": "^5.2",
+        "symfony/dotenv": "^5.2",
+        "symfony/flex": "^1.12",
+        "symfony/form": "^5.2",
+        "symfony/framework-bundle": "^5.2",
+        "symfony/monolog-bundle": "^3.6",
+        "symfony/property-access": "^5.2",
+        "symfony/validator": "^5.2",
+        "symfony/yaml": "^5.2"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-latest",
+        "friendsofphp/php-cs-fixer": "^2.18",
+        "phpunit/phpunit": "^9.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "App\\Test\\": "tests/"
+        }
+    },
+    "config": {
+        "preferred-install": {
+            "*": "dist"
+        },
+        "sort-packages": true,
+        "bin-dir": "bin",
+        "optimize-autoloader": true
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Александр Тумайкин",
+            "email": "AATumaykin@tsum.ru"
+        }
+    ],
+    "scripts": {
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd",
+            "assets:install %PUBLIC_DIR%": "symfony-cmd"
+        },
+        "post-install-cmd": [
+            "@auto-scripts"
+        ],
+        "post-update-cmd": [
+            "@auto-scripts"
+        ]
+    },
+    "replace": {
+        "paragonie/random_compat": "2.*",
+        "symfony/polyfill-ctype": "*",
+        "symfony/polyfill-iconv": "*"
+    },
+    "conflict": {
+        "symfony/symfony": "*"
+    }
+}
