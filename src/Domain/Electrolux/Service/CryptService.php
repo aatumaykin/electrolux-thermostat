@@ -8,9 +8,9 @@ use App\Domain\Electrolux\Helper\CleanHelper;
 
 class CryptService
 {
-    private const CIPHER_ALGO = "AES-256-CBC";
+    private const CIPHER_ALGO = 'AES-256-CBC';
 
-    public function __construct(private string $key)
+    public function __construct(private ?string $key = null)
     {
     }
 
@@ -45,7 +45,7 @@ class CryptService
         $message = substr($message, 0, -32);
 
         $result = (string) openssl_decrypt(
-            base64_decode($message),
+            base64_decode($message, true),
             self::CIPHER_ALGO,
             $key,
             OPENSSL_CIPHER_AES_256_CBC,

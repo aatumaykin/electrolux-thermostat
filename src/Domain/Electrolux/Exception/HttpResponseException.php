@@ -13,13 +13,18 @@ class HttpResponseException extends AbstractException
         string $message,
         private ResponseInterface $response,
         ?Throwable $previous = null
-    )
-    {
+    ) {
         parent::__construct($message, $previous);
+        $response->getBody()->rewind();
     }
 
     public function getResponse(): ResponseInterface
     {
         return $this->response;
+    }
+
+    public function jsonSerialize(): string
+    {
+        return $this->response->getBody()->getContents();
     }
 }

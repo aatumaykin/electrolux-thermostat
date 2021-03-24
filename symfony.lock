@@ -77,7 +77,7 @@
     "php-cs-fixer/diff": {
         "version": "v1.3.1"
     },
-    "php-http/client-common": {
+    "php-http/httpClient-common": {
         "version": "2.3.0"
     },
     "php-http/discovery": {
@@ -145,7 +145,7 @@
     "psr/event-dispatcher": {
         "version": "1.0.0"
     },
-    "psr/http-client": {
+    "psr/http-httpClient": {
         "version": "1.0.1"
     },
     "psr/http-factory": {
@@ -309,10 +309,10 @@
             "src/Kernel.php"
         ]
     },
-    "symfony/http-client": {
+    "symfony/http-httpClient": {
         "version": "v5.2.4"
     },
-    "symfony/http-client-contracts": {
+    "symfony/http-httpClient-contracts": {
         "version": "v2.3.1"
     },
     "symfony/http-foundation": {

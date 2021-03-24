@@ -1,0 +1,87 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Domain\Electrolux\Dto\Tcp\Response\Sub;
+
+class DeviceDto
+{
+//    private int $state;
+//private $child_lock":"0";
+//private $sensor_fault":"0";
+//private $window_open":"0";
+//private $mute":"0";
+//private $window_opened":0;
+//private $calendar_on":"0";
+//private $brightness":"1";
+//private $led_off_auto":0;
+//private $temp_comfort":10;
+//private $delta_eco":4;
+//private $temp_antifrost":7;
+//private $mode":1;
+//private $mode_temp_1":"0";
+//private $mode_temp_2":"0";
+//private $mode_temp_3":"0";
+//private $hours":12;
+//private $minutes":0;
+//private $timer":0;
+//private $current_temp":5;
+//private $heat_mode":0;
+//private $power":0;
+//private $code":"0";
+//private $lcd_on":1;
+//private $time_seconds":29;
+//private $time_minutes":6;
+//private $time_hour":0;
+//private $time_day":24;
+//private $time_month":3;
+//private $time_year":21;
+//private $time_weekday":3;
+//private $preset_monday":0;
+//private $preset_tuesday":0;
+//private $preset_wednesday":0;
+//private $preset_thursday":0;
+//private $preset_friday":0;
+//private $preset_saturday":0;
+//private $preset_sunday":0;
+//private $preset_day_1":0;
+//private $preset_day_2":0;
+//private $preset_day_3":0;
+//private $preset_day_4":0;
+//private $preset_day_5":0;
+//private $preset_day_6":0;
+//private $preset_day_7":0;
+//private $preset_day_8":2;
+//private $preset_day_9":2;
+//private $preset_day_10":2;
+//private $preset_day_11":2;
+//private $preset_day_12":2;
+//private $preset_day_13":2;
+//private $preset_day_14":2;
+//private $preset_day_15":2;
+//private $preset_day_16":2;
+//private $preset_day_17":2;
+//private $preset_day_18":2;
+//private $preset_day_19":2;
+//private $preset_day_20":2;
+//private $preset_day_21":2;
+//private $preset_day_22":2;
+//private $preset_day_23":2;
+//private $preset_day_24":0;
+//private $tempid":"188577";
+//private $uid":"188577";
+//private $mac":"set";
+//private $room":"баня";
+//private $sort":0;
+//private $type":"convector24";
+//private $curr_slot":"0";
+//private $active_slot":0;
+//private $slop":"0";
+//private $curr_scene":"0";
+//private $curr_scene_id":0;
+//private $wait_slot":0;
+//private $curr_slot_dropped":0;
+//private $curr_scene_dropped":"0";
+//private $online":0;
+//private $lock":0;
+}

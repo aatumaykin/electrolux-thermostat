@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Electrolux\Traits;
 
+use App\Domain\Electrolux\Helper\JsonSerializeHelper;
+
 trait JsonSerializableTrait
 {
     /**
@@ -11,6 +13,6 @@ trait JsonSerializableTrait
      */
     public function jsonSerialize(): array
     {
-        return get_object_vars($this);
+        return JsonSerializeHelper::jsonSerializeRecursive(get_object_vars($this));
     }
 }
