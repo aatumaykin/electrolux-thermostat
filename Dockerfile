@@ -20,4 +20,4 @@ RUN     composer install --prefer-dist --no-dev --no-progress --no-interaction; 
 
 #CMD [ "symfony serve" ]
 
-ENTRYPOINT bin/console
+RUN ["bin/console"]

@@ -1,4 +1,4 @@
-electrolux-remote
+electrolux-thermostat
 
 1. copy .env.dist to .env
 2. fill params

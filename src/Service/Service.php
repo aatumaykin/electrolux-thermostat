@@ -62,6 +62,7 @@ class Service
 
         if (!$item->isHit()) {
             $this->login();
+            $item = $this->cache->getItem('auth-data');
         }
 
         $dto = $this->buildAuthResultDto($item->get());
