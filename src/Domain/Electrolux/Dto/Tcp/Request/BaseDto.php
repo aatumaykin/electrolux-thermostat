@@ -6,12 +6,13 @@ namespace App\Domain\Electrolux\Dto\Tcp\Request;
 
 use App\Domain\Electrolux\Dto\AbstractDto;
 use App\Domain\Electrolux\Dto\JsonStringableInterface;
-use App\Domain\Electrolux\Helper\Json;
+use App\Domain\Electrolux\Traits\JsonStringableTrait;
 use JetBrains\PhpStorm\ArrayShape;
-use JsonException;
 
 class BaseDto extends AbstractDto implements JsonStringableInterface
 {
+    use JsonStringableTrait;
+
     private ?string $commandId = null;
 
     public function __construct(private string $command, private string $lang, private mixed $data)
@@ -75,13 +76,5 @@ class BaseDto extends AbstractDto implements JsonStringableInterface
             'message_id' => $this->commandId,
             'data' => $this->data,
         ];
-    }
-
-    /**
-     * @throws JsonException
-     */
-    public function asJsonString(): string
-    {
-        return Json::encode($this->jsonSerialize());
     }
 }

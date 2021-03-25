@@ -4,14 +4,15 @@ declare(strict_types=1);
 
 namespace App\Command;
 
+use App\Domain\Electrolux\Helper\Json;
 use App\Service\Service;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class LoginCommand extends Command
+class GetDevicesCommand extends Command
 {
-    protected static $defaultName = 'login';
+    protected static $defaultName = 'get-devices';
 
     public function __construct(private Service $service)
     {
@@ -21,9 +22,9 @@ class LoginCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $dto = $this->service->login();
+        $data = $this->service->getDevices();
 
-        $output->writeln($dto->asJsonString());
+        $output->writeln(Json::encode($data));
 
         return self::SUCCESS;
     }

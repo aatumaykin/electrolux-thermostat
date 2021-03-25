@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace App\Domain\Electrolux\Dto\Http;
 
 use App\Domain\Electrolux\Dto\AbstractDto;
+use App\Domain\Electrolux\Dto\JsonStringableInterface;
 use App\Domain\Electrolux\Traits\JsonSerializableTrait;
+use App\Domain\Electrolux\Traits\JsonStringableTrait;
 
-class AuthResultDto extends AbstractDto
+class AuthResultDto extends AbstractDto implements JsonStringableInterface
 {
     use JsonSerializableTrait;
+    use JsonStringableTrait;
 
     private string $token;
     private UserDto $user;
