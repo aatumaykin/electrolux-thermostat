@@ -1,5 +1,7 @@
 electrolux-thermostat
 
+наработки по эмуляции приложения home comfort для управления конвектором electrolux
+
 1. copy .env.dist to .env
 2. fill params
 3. run `composer install`
