@@ -23,7 +23,7 @@ use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 
 class Service
 {
-    private const TIMEOUT = 30 * 1000;
+    private const TIMEOUT = 30;
 
     private FilesystemAdapter $cache;
 
@@ -123,13 +123,13 @@ class Service
                 }
 
                 if ($command instanceof TokenDto) {
-//                    $this->tcpClient->setDeviceParams($deviceId, $params);
-                    $this->tcpClient->sendMessage('{"lang":"ru","command":"setDeviceParams","message_id":null,"data":{"device":[{"uid":"188577", "params":{"state":"1"}}]}}');
+                    $this->tcpClient->setDeviceParams($deviceId, $params);
+//                    $this->tcpClient->sendMessage('{"lang":"ru","command":"setDeviceParams","data":{"device":[{"uid":"188577", "params":{"temp_comfort":"11"}}]}}');
                 }
 
                 if ($command instanceof GetDevicesDto) {
-//                    $this->tcpClient->setDeviceParams($deviceId, $params);
-                    $this->tcpClient->sendMessage('{"lang":"ru","command":"setDeviceParams","message_id":null,"data":{"device":[{"uid":"188577", "params":{"state":"1"}}]}}');
+                    $this->tcpClient->setDeviceParams($deviceId, $params);
+//                    $this->tcpClient->sendMessage('{"lang":"ru","command":"setDeviceParams","data":{"device":[{"uid":"188577", "params":{"temp_comfort":"11"}}]}}');
                 }
 
                 if ($command instanceof SetDeviceParamsDto) {
