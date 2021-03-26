@@ -22,6 +22,7 @@ use MyCLabs\Enum\Enum;
  * @method static self UPDATE_DEVICE()
  * @method static self WAITING_DEVICE()
  * @method static self NULL_COMMAND()
+ * @method static self UPDATE_PARAMS()
  */
 class ResponseCommandTypeEnum extends Enum
 {
@@ -33,6 +34,7 @@ class ResponseCommandTypeEnum extends Enum
     public const GET_CALENDAR_SLOTS = 'getTimeSlots';
     public const GET_DEVICE_STATISTIC = 'getDeviceStat';
     public const GET_DEVICES = 'getDeviceParams';
+    public const UPDATE_PARAMS = 'setDeviceParams';
     public const NEW_DEVICE = 'deviceAdded';
     public const SET_CALENDAR = 'SetTimeSlot';
     public const SET_DEFAULT_DEVICE_PARAMS = 'setDefaultDeviceParams';

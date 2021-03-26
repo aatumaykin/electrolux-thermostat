@@ -7,6 +7,7 @@ namespace App\Domain\Electrolux\Builder;
 use App\Domain\Electrolux\Dto\Tcp\Response\AscDto;
 use App\Domain\Electrolux\Dto\Tcp\Response\GetDevicesDto;
 use App\Domain\Electrolux\Dto\Tcp\Response\NullDto;
+use App\Domain\Electrolux\Dto\Tcp\Response\SetDeviceParamsDto;
 use App\Domain\Electrolux\Dto\Tcp\Response\Sub\GetDevicesResultDto;
 use App\Domain\Electrolux\Dto\Tcp\Response\Sub\TokenResultDto;
 use App\Domain\Electrolux\Dto\Tcp\Response\TokenDto;
@@ -38,6 +39,14 @@ class TcpResponseBuilder
                     $data['result']['invalid_device'],
                     $data['result']['waiting_device'],
                 ),
+                $data['message']
+            );
+        }
+
+        if ($type->equals(ResponseCommandTypeEnum::UPDATE_PARAMS())) {
+            return new SetDeviceParamsDto(
+                $data['message_id'],
+                $data['result'],
                 $data['message']
             );
         }

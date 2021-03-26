@@ -12,11 +12,13 @@ use App\Domain\Electrolux\Dto\Http\ServerDto;
 use App\Domain\Electrolux\Dto\Http\UserDto;
 use App\Domain\Electrolux\Dto\Tcp\Response\AscDto;
 use App\Domain\Electrolux\Dto\Tcp\Response\GetDevicesDto;
+use App\Domain\Electrolux\Dto\Tcp\Response\SetDeviceParamsDto;
 use App\Domain\Electrolux\Dto\Tcp\Response\TokenDto;
 use App\Domain\Electrolux\Helper\Json;
 use App\Domain\Electrolux\HttpClient;
 use App\Domain\Electrolux\Service\CryptService;
 use App\Domain\Electrolux\TcpClient;
+use JetBrains\PhpStorm\ArrayShape;
 use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 
 class Service
@@ -36,39 +38,21 @@ class Service
 
     public function login(): AuthResultDto
     {
-        $item = $this->cache->getItem('auth-data');
-
-        if ($item->isHit()) {
-            return $this->buildAuthResultDto($item->get());
-        }
-
         $loginDto = new LoginDto(
             $this->config->getLogin(),
             $this->config->getPassword(),
             $this->config->getAppCode()
         );
 
-        $dto = $this->httpClient->login($loginDto);
-
-        $item->set($dto->jsonSerialize());
-        $this->cache->save($item);
-
-        return $dto;
+        return $this->httpClient->login($loginDto);
     }
 
     public function getDevices(): array
     {
-        $item = $this->cache->getItem('auth-data');
+        [$key, $token, $host] = $this->loadCache();
 
-        if (!$item->isHit()) {
-            $this->login();
-            $item = $this->cache->getItem('auth-data');
-        }
-
-        $dto = $this->buildAuthResultDto($item->get());
-
-        $this->tcpClient->connect($dto->getTcpServer()->__toString());
-        $this->cryptService->setKey($dto->getEncKey());
+        $this->tcpClient->connect($host);
+        $this->cryptService->setKey($key);
 
         $result = [];
         $time = microtime(true);
@@ -88,7 +72,7 @@ class Service
             $command = TcpResponseBuilder::build($data);
 
             if ($command instanceof AscDto) {
-                $this->tcpClient->sendToken($dto->getToken());
+                $this->tcpClient->sendToken($token);
             }
 
             if ($command instanceof TokenDto) {
@@ -104,6 +88,104 @@ class Service
         $this->tcpClient->close();
 
         return $result;
+    }
+
+    public function setDeviceUpdate(string $deviceId, array $params): array
+    {
+        [$key, $token, $host] = $this->loadCache();
+
+        $this->tcpClient->connect($host);
+        $this->cryptService->setKey($key);
+
+        $result = [];
+        $time = microtime(true);
+        $continue = true;
+
+        try {
+            do {
+                $message = $this->tcpClient->read();
+
+                if ('' === $message) {
+                    usleep(500);
+
+                    continue;
+                }
+
+                if (!str_starts_with($message, '{')) {
+                    $message = $this->cryptService->decrypt($message);
+                }
+
+                $data = Json::decodeAsArray($message);
+                $command = TcpResponseBuilder::build($data);
+
+                if ($command instanceof AscDto) {
+                    $this->tcpClient->sendToken($token);
+                }
+
+                if ($command instanceof TokenDto) {
+//                    $this->tcpClient->setDeviceParams($deviceId, $params);
+                    $this->tcpClient->sendMessage('{"lang":"ru","command":"setDeviceParams","message_id":null,"data":{"device":[{"uid":"188577", "params":{"state":"1"}}]}}');
+                }
+
+                if ($command instanceof GetDevicesDto) {
+//                    $this->tcpClient->setDeviceParams($deviceId, $params);
+                    $this->tcpClient->sendMessage('{"lang":"ru","command":"setDeviceParams","message_id":null,"data":{"device":[{"uid":"188577", "params":{"state":"1"}}]}}');
+                }
+
+                if ($command instanceof SetDeviceParamsDto) {
+                    $result = $command->jsonSerialize();
+                    $continue = false;
+                }
+
+                usleep(500);
+            } while (true === $continue && microtime(true) - $time < self::TIMEOUT);
+        } finally {
+            $this->tcpClient->close();
+        }
+
+        return $result;
+    }
+
+    #[ArrayShape(['key' => 'string', 'token' => 'string', 'host' => 'string'])]
+    public function saveCache(string $key, string $token, string $host): array
+    {
+        $data = [
+            'key' => $key,
+            'token' => $token,
+            'host' => $host,
+        ];
+
+        $this->cache->save(
+            $this->cache
+                ->getItem('auth-data')
+                ->set($data)
+        );
+
+        return $data;
+    }
+
+    #[ArrayShape(['key' => 'string', 'token' => 'string', 'host' => 'string'])]
+    public function loadCache(): array
+    {
+        $item = $this->cache->getItem('auth-data');
+
+        if ($item->isHit()) {
+            $data = $item->get();
+
+            return [
+                $data['key'],
+                $data['token'],
+                $data['host'],
+            ];
+        }
+
+        $dto = $this->login();
+
+        return $this->saveCache(
+            $dto->getEncKey(),
+            $dto->getToken(),
+            $dto->getTcpServer()->__toString()
+        );
     }
 
     private function buildAuthResultDto(array $data): AuthResultDto

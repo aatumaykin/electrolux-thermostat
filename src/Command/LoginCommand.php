@@ -18,10 +18,15 @@ class LoginCommand extends Command
         parent::__construct();
     }
 
-
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $dto = $this->service->login();
+
+        $this->service->saveCache(
+            $dto->getEncKey(),
+            $dto->getToken(),
+            $dto->getTcpServer()->__toString()
+        );
 
         $output->writeln($dto->asJsonString());
 

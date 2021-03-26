@@ -6,7 +6,10 @@ namespace App\Domain\Electrolux;
 
 use App\Domain\Electrolux\Dto\Tcp\Request\GetDevicesDto;
 use App\Domain\Electrolux\Dto\Tcp\Request\Sub\GetDevicesDataDto;
+use App\Domain\Electrolux\Dto\Tcp\Request\Sub\UpdateDeviceDataDto;
+use App\Domain\Electrolux\Dto\Tcp\Request\Sub\UpdateDevicesDto;
 use App\Domain\Electrolux\Dto\Tcp\Request\TokenDto;
+use App\Domain\Electrolux\Dto\Tcp\Request\UpdateDeviceDto;
 use App\Domain\Electrolux\Helper\CleanHelper;
 use Socket\Raw\Factory;
 use Socket\Raw\Socket;
@@ -76,6 +79,21 @@ class TcpClient
         $command = new GetDevicesDto(
             $this->config->getLang(),
             new GetDevicesDataDto($uid)
+        );
+
+        $this->sendMessage($command->asJsonString());
+
+        return $this;
+    }
+
+    public function setDeviceParams(string $deviceId, array $params): self
+    {
+        $devicesList = new UpdateDevicesDto();
+        $devicesList->add(new UpdateDeviceDataDto($deviceId, $params));
+
+        $command = new UpdateDeviceDto(
+            $this->config->getLang(),
+            $devicesList
         );
 
         $this->sendMessage($command->asJsonString());
