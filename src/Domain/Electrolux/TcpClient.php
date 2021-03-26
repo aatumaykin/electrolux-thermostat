@@ -11,6 +11,7 @@ use App\Domain\Electrolux\Dto\Tcp\Request\Sub\UpdateDevicesDto;
 use App\Domain\Electrolux\Dto\Tcp\Request\TokenDto;
 use App\Domain\Electrolux\Dto\Tcp\Request\UpdateDeviceDto;
 use App\Domain\Electrolux\Helper\CleanHelper;
+use JsonException;
 use Socket\Raw\Factory;
 use Socket\Raw\Socket;
 use Throwable;
@@ -33,7 +34,7 @@ class TcpClient
     public function connect(string $address): self
     {
         $this->socket = (new Factory())->createClient($address);
-//        echo 'Connected to '.$this->socket->getPeerName().PHP_EOL;
+        $this->socket->setBlocking(false);
 
         return $this;
     }
@@ -48,20 +49,24 @@ class TcpClient
 
     public function read(): string
     {
-        $readData = CleanHelper::clean($this->socket->read(8192, PHP_NORMAL_READ));
-//        echo sprintf("(%d)<- \t%s\n", strlen($readData), $readData);
+        if (!$this->socket->selectRead()) {
+            return '';
+        }
 
-        return $readData;
+        return CleanHelper::clean($this->socket->read(8192, PHP_NORMAL_READ));
     }
 
     public function sendMessage(string $message): self
     {
         $result = $this->socket->write($message.self::COMMAND_SUFFIX);
-//        echo sprintf("(%d)-> \t%s\n", $result, $message);
+        echo sprintf("(%d)-> %s\n", $result, $message);
 
         return $this;
     }
 
+    /**
+     * @throws JsonException
+     */
     public function sendToken(string $token): self
     {
         $command = new TokenDto(
@@ -74,6 +79,9 @@ class TcpClient
         return $this;
     }
 
+    /**
+     * @throws JsonException
+     */
     public function getDevices(string $uid): self
     {
         $command = new GetDevicesDto(
@@ -86,6 +94,9 @@ class TcpClient
         return $this;
     }
 
+    /**
+     * @throws JsonException
+     */
     public function setDeviceParams(string $deviceId, array $params): self
     {
         $devicesList = new UpdateDevicesDto();
