@@ -15,6 +15,7 @@ use JsonException;
 use Socket\Raw\Factory;
 use Socket\Raw\Socket;
 use Throwable;
+use function strlen;
 
 class TcpClient
 {
@@ -59,7 +60,7 @@ class TcpClient
     public function sendMessage(string $message): self
     {
         $result = $this->socket->write($message.self::COMMAND_SUFFIX);
-        echo sprintf("(%d)-> %s\n", $result, $message);
+        echo sprintf("\n(%d/%d)-> %s\n", $result, strlen($message), $message);
 
         return $this;
     }

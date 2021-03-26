@@ -192,7 +192,7 @@ class Service
                 }
 
                 if ('' !== $response) {
-                    echo sprintf("(%d)<- %s\n", strlen($response), $response);
+                    echo sprintf("\n(%d)<- %s\n", strlen($response), $response);
                 }
 
                 $request = (string) file_get_contents($file);
@@ -208,8 +208,25 @@ class Service
 
                 $prev = $request;
 
+                if ('' === $request) {
+                    echo '.';
+
+                    usleep(2 * 1000 * 1000);
+
+                    continue;
+                }
+
+                if (str_starts_with($request, '{')) {
+                    $data = Json::decodeAsArray($request);
+                    if ($data['command'] !== 'token') {
+                        $request = $this->cryptService->encrypt($request);
+                    }
+                }
+
                 $this->tcpClient->sendMessage($request);
-            } catch (Throwable) {
+            } catch (Throwable $t) {
+                echo $t->getMessage();
+
                 $this->tcpClient->close();
                 $continue = false;
             }
