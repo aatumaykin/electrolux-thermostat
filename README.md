@@ -84,8 +84,15 @@ electrolux-thermostat
     # сработало один раз (автоматически логинится)
     bin/console update-device 188577 '{"state":"1"}'
 
+    # раскодировать сообщение
+    bin/console decode vBdLZSJ9k/B1pDlBSatjWZZMVT90hDC8KFaVu+rvMyQ= vrswNYrl4Pb4KeQCiRBbGNjF7Jdy7J1rWBB7cuSJKpaL6JigXm6k/CvLjmH818Vt18VDb2dsjcxFV7ZG3zb3ls1+0759khtHUM+HU81vvxY=7aa0f4722a38055e5d5ba20cbb71aaa5
+
     # раскодировать сообщение в hex формате
     bin/console decode --hex vBdLZSJ9k/B1pDlBSatjWZZMVT90hDC8KFaVu+rvMyQ= 767273774e59726c345062344b65514369524262474e6a46374a6479374a3172574242376375534a4b70614c364a6967586d366b2f43764c6a6d48383138567431385644623264736a63784656375a47337a62336c73312b303735396b687448554d2b48553831767678593d3761613066343732326133383035356535643562613230636262373161616135
 
-    # раскодировать сообщение в обычном формате
-    bin/console decode vBdLZSJ9k/B1pDlBSatjWZZMVT90hDC8KFaVu+rvMyQ= vrswNYrl4Pb4KeQCiRBbGNjF7Jdy7J1rWBB7cuSJKpaL6JigXm6k/CvLjmH818Vt18VDb2dsjcxFV7ZG3zb3ls1+0759khtHUM+HU81vvxY=7aa0f4722a38055e5d5ba20cbb71aaa5
+    # раскодировать сообщения через файл обмена. принцип работы:
+    # - запускаем команду с указанием файла
+    # - записываем в файл кодированное сообщение 1
+    # - записываем в файл кодированное сообщение 2
+    # - и т.д.
+    bin/console decode --file $(pwd)/messages.txt vBdLZSJ9k/B1pDlBSatjWZZMVT90hDC8KFaVu+rvMyQ=

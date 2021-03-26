@@ -45,7 +45,7 @@ class CryptService
         $message = substr($message, 0, -32);
 
         $result = (string) openssl_decrypt(
-            base64_decode($message, true),
+            (string) base64_decode($message, true),
             self::CIPHER_ALGO,
             $key,
             OPENSSL_CIPHER_AES_256_CBC,

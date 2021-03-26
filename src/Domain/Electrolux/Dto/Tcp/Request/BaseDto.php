@@ -73,7 +73,7 @@ class BaseDto extends AbstractDto implements JsonStringableInterface
         return [
             'lang' => $this->lang,
             'command' => $this->command,
-            'message_id' => $this->commandId,
+            //            'message_id' => $this->commandId,
             'data' => $this->data,
         ];
     }
