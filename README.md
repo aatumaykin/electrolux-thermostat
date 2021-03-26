@@ -96,3 +96,6 @@ electrolux-thermostat
     # - записываем в файл кодированное сообщение 2
     # - и т.д.
     bin/console decode --file $(pwd)/messages.txt vBdLZSJ9k/B1pDlBSatjWZZMVT90hDC8KFaVu+rvMyQ=
+
+    # отправка json сообщения, записанного в файл
+    bin/console send-message $(pwd)/command.json
