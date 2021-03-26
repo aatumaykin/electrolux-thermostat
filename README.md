@@ -1,5 +1,8 @@
 electrolux-thermostat
 
+чат в телеге для желающих принять участие в реверс-инжиниринге
+https://t.me/joinchat/psTUBFY5E4swZTAy
+
 наработки по эмуляции приложения home comfort для управления конвектором electrolux
 
 1. copy .env.dist to .env
